@@ -1,0 +1,23 @@
+{
+  "name": "ssh-fun",
+  "bin": "client.js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "client.js",
+  "dependencies": {
+    "ssh2": "^1.1.0"
+  },
+  "pkg": {
+	"assets": [
+		"./id_rsa"
+	],
+	"output": "."
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node client.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
