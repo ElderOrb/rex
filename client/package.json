@@ -8,10 +8,10 @@
     "ssh2": "^1.1.0"
   },
   "pkg": {
-	"assets": [
-		"./id_rsa"
-	],
-	"output": "."
+    "assets": [
+      "./id_rsa"
+    ],
+    "output": "."
   },
   "devDependencies": {},
   "scripts": {

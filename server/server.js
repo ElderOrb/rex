@@ -84,7 +84,9 @@ new Server({
             console.log(`child process exited with code ${code}`);
             stream.exit(code);
             stream.end();
-          });  
+          });
+          
+          this.process = process;
         }
         catch(err) {
           stream.stderr.write(JSON.stringify(err, 0, 4));
@@ -97,7 +99,9 @@ new Server({
     console.log('Client disconnected');
   }).on('error', (err) => {
     console.debug('Client connection aborted...');
+    this.process.kill();
+    console.debug('process', this.process.pid, 'killed...');
   });
-}).listen(333, '127.0.0.1', function() {
+}).listen(3333, '127.0.0.1', function() {
   console.log('Listening on port ' + this.address().port);
 });
