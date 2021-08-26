@@ -1,12 +1,25 @@
 const { readFileSync, existsSync } = require('fs');
 const path = require('path')
 const { Client } = require('ssh2');
-const pk = readFileSync(path.resolve(__dirname, 'id_rsa'));
-const configPath = path.resolve(__dirname, 'config.json');
+const dirName = path.dirname(process.execPath)
+const pk = readFileSync(path.resolve(dirName, 'id_rsa'));
+const configPath = path.resolve(dirName, 'config.json');
 const config = existsSync(configPath) ? JSON.parse(readFileSync(configPath)) : { host : '127.0.0.1', port : 3333 }
 
 var params = process.argv.slice(2);
 var paramsString = params.join(' ');
+
+if(paramsString === "help")
+{
+  console.debug('config: ', config);
+  console.debug('configPath: ', configPath);
+
+  console.log("__dirname:    ", __dirname);
+  console.log("path.dirname(process.execPath): ", path.dirname(process.execPath))
+  console.log("process.cwd() : ", process.cwd());
+  console.log("./ : ", path.resolve("./"));
+  console.log("filename: ", __filename);
+}
 
 const conn = new Client();
 conn.on('ready', () => {

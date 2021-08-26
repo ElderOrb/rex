@@ -5,11 +5,13 @@ const { spawn, spawnSync } = require('child_process');
 
 const { utils, Server } = require('ssh2');
 const path = require('path')
-const config = existsSync(configPath) ? JSON.parse(readFileSync(configPath)) : { host : '127.0.0.1', port : 3333 }
+const dirName = path.dirname(process.execPath)
+const configPath = path.resolve(dirName, 'config.json');
+const config = existsSync(configPath) ? JSON.parse(readFileSync(configPath)) : { host : '0.0.0.0', port : 3333 }
 
 const allowedUser = Buffer.from('foo');
 const allowedPassword = Buffer.from('bar');
-const allowedPubKey = utils.parseKey(readFileSync(path.resolve(__dirname, 'id_rsa.pub')));
+const allowedPubKey = utils.parseKey(readFileSync(path.resolve(dirName, 'id_rsa.pub')));
 
 function checkValue(input, allowed) {
   const autoReject = (input.length !== allowed.length);
