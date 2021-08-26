@@ -1,7 +1,9 @@
-const { readFileSync } = require('fs');
+const { readFileSync, existsSync } = require('fs');
 const path = require('path')
 const { Client } = require('ssh2');
 const pk = readFileSync(path.resolve(__dirname, 'id_rsa'));
+const configPath = path.resolve(__dirname, 'config.json');
+const config = existsSync(configPath) ? JSON.parse(readFileSync(configPath)) : { host : '127.0.0.1', port : 3333 }
 
 var params = process.argv.slice(2);
 var paramsString = params.join(' ');
@@ -22,8 +24,8 @@ conn.on('ready', () => {
     });
   });
 }).connect({
-  host: '127.0.0.1',
-  port: 3333,
+  host: config.host,
+  port: config.port,
   username: 'frylock',
   privateKey: pk
 });

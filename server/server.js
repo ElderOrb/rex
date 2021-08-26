@@ -1,10 +1,11 @@
 const { timingSafeEqual } = require('crypto');
-const { readFileSync } = require('fs');
+const { readFileSync, existsSync } = require('fs');
 const { inspect } = require('util');
 const { spawn, spawnSync } = require('child_process');
 
 const { utils, Server } = require('ssh2');
 const path = require('path')
+const config = existsSync(configPath) ? JSON.parse(readFileSync(configPath)) : { host : '127.0.0.1', port : 3333 }
 
 const allowedUser = Buffer.from('foo');
 const allowedPassword = Buffer.from('bar');
@@ -102,6 +103,6 @@ new Server({
     this.process.kill();
     console.debug('process', this.process.pid, 'killed...');
   });
-}).listen(3333, '127.0.0.1', function() {
+}).listen(config.port, config.host, function() {
   console.log('Listening on port ' + this.address().port);
 });
