@@ -5,7 +5,7 @@ const { spawn, spawnSync } = require('child_process');
 
 const { utils, Server } = require('ssh2');
 const path = require('path')
-const dirName = path.dirname(process.execPath)
+const dirName = __dirname;
 const configPath = path.resolve(dirName, 'config.json');
 const config = existsSync(configPath) ? JSON.parse(readFileSync(configPath)) : { host : '0.0.0.0', port : 3333 }
 
