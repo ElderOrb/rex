@@ -103,9 +103,13 @@ new Server({
   }).on('close', () => {
     console.log('Client disconnected');
   }).on('error', (err) => {
-    console.debug('Client connection aborted...');
-    client.process.kill();
-    console.debug('process', client.process.pid, 'killed...');
+    console.log(`Client connection aborted... trying to kill ${client.process}`);
+    if(client.process) {
+      client.process.kill();
+      console.debug('process', client.process.pid, 'killed...');  
+    } else {
+      console.warn('nothing to kill!');
+    }
   });
 }).listen(config.port, config.host, function() {
   console.log('Listening on port ' + this.address().port);
