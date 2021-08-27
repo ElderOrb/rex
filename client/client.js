@@ -7,7 +7,8 @@ const configPath = path.resolve(dirName, 'config.json');
 const config = existsSync(configPath) ? JSON.parse(readFileSync(configPath)) : { host : '127.0.0.1', port : 3333 }
 
 var params = process.argv.slice(2);
-var paramsString = params.join(' ');
+var appName = ''
+var paramsString = appName + params.join(' ');
 
 if(paramsString === "help")
 {
@@ -23,17 +24,15 @@ if(paramsString === "help")
 
 const conn = new Client();
 conn.on('ready', () => {
-  console.log('Client :: ready');
   conn.exec(paramsString, {}, (err, stream) => {
     if (err) throw err;
 
     stream.on('close', (code, signal) => {
-      console.log('Stream :: close :: code: ' + code + ', signal: ' + signal);
       conn.end();
     }).stdout.on('data', (data) => {
-      console.log('' + data);
+      process.stdout.write('' + data);
     }).stderr.on('data', (data) => {
-      console.log('STDERR: ' + data);
+      process.stderr.write('' + data);
     });
   });
 }).connect({
